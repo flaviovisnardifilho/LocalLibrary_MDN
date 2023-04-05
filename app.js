@@ -10,6 +10,15 @@ const catalogRouter = require("./routes/catalog");
 
 const app = express();
 
+// Set up rate limite: maximum of twenty requests per minute
+const RateLimit = require("express-rate-limit");
+const limiter = RateLimit({
+  windowMS: 1 * 60 * 1000, // 1 minute
+  max: 20,
+});
+// Apply rate limiter to all requests
+app.use(limiter);
+
 const mongoose = require("mongoose");
 const compression = require("compression");
 const helmet = require("helmet");
