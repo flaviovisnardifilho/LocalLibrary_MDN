@@ -12,9 +12,9 @@ const app = express();
 
 const mongoose = require("mongoose");
 const compression = require("compression");
+const helmet = require("helmet");
 
 require("dotenv").config();
-
 
 // Set up mongoose connection
 const dev_db_url =
@@ -31,6 +31,7 @@ async function main() {
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
 
+app.use(helmet());
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
