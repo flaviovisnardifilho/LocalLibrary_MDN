@@ -11,14 +11,16 @@ const catalogRouter = require("./routes/catalog");
 const app = express();
 
 const mongoose = require("mongoose");
+const compression = require("compression");
 
 require("dotenv").config();
+
 
 // Set up mongoose connection
 const dev_db_url =
   "mongodb+srv://your_user_name:your_password@cluster0.lz91hw2.mongodb.net/local_library?retryWrites=true&w=majority";
 mongoose.set("strictQuery", false);
-const mongoDB = process.env.MONGODB_URI || dev_db_url
+const mongoDB = process.env.MONGODB_URI || dev_db_url;
 
 main().catch((err) => console.log(err));
 async function main() {
@@ -33,6 +35,9 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+app.use(compression()); // Compress all routes
+
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
